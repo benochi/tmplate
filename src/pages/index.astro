@@ -1,16 +1,21 @@
 ---
-
+// src/pages/index.astro
+import Layout from "../layouts/Layout.astro";
+import Section from "../components/blocks/Section.astro";
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout>
+  <fragment slot="head">
+    <title>Home • Acme</title>
+    <meta name="description" content="Acme builds fast, SEO-first SMB sites." />
+    <link rel="canonical" href="/" />
+  </fragment>
+
+  <main id="main" class="mx-auto max-w-5xl p-8">
+    <Section eyebrow="Benefits" title="Why choose us">
+      <p class="text-lg text-slate-700">
+        Lightning-fast, accessible, and easy to edit.
+      </p>
+    </Section>
+  </main>
+</Layout>

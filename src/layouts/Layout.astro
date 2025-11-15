@@ -1,0 +1,21 @@
+---
+import "../styles/global.css";
+const { lang = "en", bodyClass = "" } = Astro.props;
+---
+
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <slot name="head" />
+  </head>
+  <body class={`min-h-screen text-slate-800 ${bodyClass}`}>
+    <a href="#main" class="sr-only focus:not-sr-only p-2">Skip to content</a>
+    <slot />
+    <footer class="mt-16 border-t border-slate-200">
+      <div class="mx-auto max-w-7xl px-4 py-8 text-sm text-slate-600">
+        © {new Date().getFullYear()} Your Business
+      </div>
+    </footer>
+  </body>
+</html>
