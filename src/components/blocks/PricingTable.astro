@@ -1,22 +1,22 @@
 ---
+import PageContainer from "../layout/PageContainer.astro";
+
 type Plan = {
   name: string;
-  price: string; // e.g., "$999"
+  price: string;
   description?: string;
   features: string[];
   highlight?: boolean;
   buttonText?: string;
   buttonHref?: string;
 };
-type Props = {
-  title?: string;
-  plans?: Plan[];
-};
+type Props = { title?: string; plans?: Plan[] };
+
 const { title = "Simple pricing", plans = [] } = Astro.props as Props;
 ---
 
 <section aria-labelledby="pricing-heading">
-  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+  <PageContainer>
     <h2 id="pricing-heading" class="text-3xl sm:text-4xl font-bold">{title}</h2>
     <div class="mt-8 grid gap-6 lg:grid-cols-3">
       {
@@ -26,7 +26,9 @@ const { title = "Simple pricing", plans = [] } = Astro.props as Props;
           >
             <header>
               <h3 class="text-xl font-semibold">{p.name}</h3>
-              <p class="mt-1 text-slate-600">{p.description}</p>
+              {p.description && (
+                <p class="mt-1 text-slate-600">{p.description}</p>
+              )}
               <div class="mt-4 text-3xl font-bold">{p.price}</div>
             </header>
             <ul class="mt-6 grid gap-2 text-slate-700">
@@ -45,5 +47,5 @@ const { title = "Simple pricing", plans = [] } = Astro.props as Props;
         ))
       }
     </div>
-  </div>
+  </PageContainer>
 </section>

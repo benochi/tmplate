@@ -1,10 +1,13 @@
 ---
+import PageContainer from "../layout/PageContainer.astro";
+
 type Props = {
   headline?: string;
   subhead?: string;
   buttonText?: string;
   buttonHref?: string;
 };
+
 const {
   headline = "Win more local customers",
   subhead = "Clean, fast, SEO-first websites with clear calls to action.",
@@ -14,22 +17,22 @@ const {
 ---
 
 <header class="pt-20 pb-16">
-  <div
-    class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 grid gap-8 lg:grid-cols-12 items-center"
-  >
-    <div class="lg:col-span-7">
-      <h1 class="text-4xl sm:text-6xl font-extrabold">{headline}</h1>
-      <p class="mt-6 text-lg text-slate-600">{subhead}</p>
-      <a href={buttonHref} class="inline-block mt-8">
-        <button
-          class="h-12 px-6 rounded-2xl bg-[--color-brand] text-white font-semibold hover:opacity-90"
-        >
-          {buttonText}
-        </button>
-      </a>
+  <PageContainer>
+    <div class="grid gap-8 lg:grid-cols-12 items-center">
+      <div class="lg:col-span-7">
+        <h1 class="text-4xl sm:text-6xl font-extrabold">{headline}</h1>
+        <p class="mt-6 text-lg text-slate-600">{subhead}</p>
+        <a href={buttonHref} class="inline-block mt-8">
+          <button
+            class="h-12 px-6 rounded-2xl bg-[--color-brand] text-white font-semibold hover:opacity-90"
+          >
+            {buttonText}
+          </button>
+        </a>
+      </div>
+      <div class="lg:col-span-5">
+        <div class="aspect-video rounded-2xl bg-slate-100"></div>
+      </div>
     </div>
-    <div class="lg:col-span-5">
-      <div class="aspect-video rounded-2xl bg-slate-100"></div>
-    </div>
-  </div>
+  </PageContainer>
 </header>

@@ -1,14 +1,13 @@
 ---
-type Testimonial = {
-  quote: string;
-  author: string;
-  role?: string;
-};
+import PageContainer from "../layout/PageContainer.astro";
+
+type Testimonial = { quote: string; author: string; role?: string };
 type Props = {
   title?: string;
   items?: Testimonial[];
   backgroundClass?: string;
 };
+
 const {
   title = "What clients say",
   items = [],
@@ -17,7 +16,7 @@ const {
 ---
 
 <section class={backgroundClass} aria-labelledby="testimonials-heading">
-  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+  <PageContainer>
     <h2 id="testimonials-heading" class="text-3xl sm:text-4xl font-bold">
       {title}
     </h2>
@@ -36,5 +35,5 @@ const {
         ))
       }
     </ul>
-  </div>
+  </PageContainer>
 </section>

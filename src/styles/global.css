@@ -2,6 +2,10 @@
 
 @theme {
   --color-brand: #1d4ed8; /* blue-700 */
+  --surface: #ffffff;
+  --surface-muted: #f8fafc;
+  --border: #e2e8f0;
+  --text: #0f172a;
 }
 
 :focus-visible { outline: 3px solid rgba(59,130,246,.6); outline-offset: 2px; }

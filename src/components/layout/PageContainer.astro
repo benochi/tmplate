@@ -1,0 +1,11 @@
+---
+// Centralizes width/padding for all pages
+type Props = { padded?: boolean; class?: string };
+const { padded = true, class: cls = "" } = Astro.props as Props;
+---
+
+<div
+  class={`mx-auto max-w-7xl ${padded ? "px-4 sm:px-6 lg:px-8 py-12 sm:py-16" : ""} ${cls}`}
+>
+  <slot />
+</div>

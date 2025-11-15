@@ -1,4 +1,6 @@
 ---
+import PageContainer from "../layout/PageContainer.astro";
+
 type Props = {
   title?: string;
   text?: string;
@@ -17,7 +19,7 @@ const {
 ---
 
 <section class={backgroundClass} aria-labelledby="primary-action-heading">
-  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+  <PageContainer>
     <h2 id="primary-action-heading" class="text-3xl sm:text-4xl font-bold">
       {title}
     </h2>
@@ -32,5 +34,5 @@ const {
         {buttonText}
       </button>
     </a>
-  </div>
+  </PageContainer>
 </section>
