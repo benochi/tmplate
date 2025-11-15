@@ -5,6 +5,7 @@ import Section from "../components/blocks/Section.astro";
 import Hero from "../components/blocks/Hero.astro";
 import FeatureGrid from "../components/blocks/FeatureGrid.astro";
 import PrimaryActionSection from "../components/blocks/PrimaryActionSection.astro";
+import FAQ from "../components/blocks/FAQ.astro";
 ---
 
 <Layout>
@@ -47,6 +48,22 @@ import PrimaryActionSection from "../components/blocks/PrimaryActionSection.astr
       text="Pick a time that works for you."
       buttonText="Schedule now"
       buttonHref="/schedule"
+    />
+    <FAQ
+      items={[
+        {
+          question: "How fast can you launch?",
+          answer: "Most sites launch in 3–7 days.",
+        },
+        {
+          question: "Do you handle SEO?",
+          answer: "Yes, titles, descriptions, headings, clean HTML.",
+        },
+        {
+          question: "Can I update content later?",
+          answer: "Yes, we can add and edit pages anytime.",
+        },
+      ]}
     />
   </main>
 </Layout>
