@@ -1,0 +1,45 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Section from "../components/blocks/Section.astro";
+import FeatureGrid from "../components/blocks/FeatureGrid.astro";
+import PrimaryActionSection from "../components/blocks/PrimaryActionSection.astro";
+---
+
+<Layout>
+  <fragment slot="head">
+    <title>Services • Your Business</title>
+    <meta
+      name="description"
+      content="Our core services delivered fast with SEO-friendly, accessible builds."
+    />
+    <link rel="canonical" href="/services" />
+  </fragment>
+
+  <main id="main">
+    <Section eyebrow="What we do" title="Services">
+      <FeatureGrid
+        items={[
+          {
+            title: "Website builds",
+            body: "Fast static sites with modern design and clean SEO.",
+          },
+          {
+            title: "Brand refresh",
+            body: "Color, type, and layout tuned for conversions.",
+          },
+          {
+            title: "Content updates",
+            body: "Add pages, change copy, swap images with ease.",
+          },
+        ]}
+      />
+    </Section>
+
+    <PrimaryActionSection
+      title="Ready to start?"
+      text="Get a same-day quote for your website."
+      buttonText="Contact us"
+      buttonHref="/contact"
+    />
+  </main>
+</Layout>

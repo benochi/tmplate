@@ -1,0 +1,67 @@
+---
+import Layout from "../layouts/Layout.astro";
+import PricingTable from "../components/blocks/PricingTable.astro";
+import PrimaryActionSection from "../components/blocks/PrimaryActionSection.astro";
+---
+
+<Layout>
+  <fragment slot="head">
+    <title>Pricing • Your Business</title>
+    <meta
+      name="description"
+      content="Transparent website packages with fast delivery and clean SEO."
+    />
+    <link rel="canonical" href="/pricing" />
+  </fragment>
+
+  <main id="main">
+    <PricingTable
+      plans={[
+        {
+          name: "Starter",
+          price: "$699",
+          description: "One-page site",
+          features: [
+            "Responsive layout",
+            "Contact form",
+            "Basic SEO",
+            "Launch in 3–5 days",
+          ],
+          buttonText: "Choose Starter",
+        },
+        {
+          name: "Business",
+          price: "$1,499",
+          description: "Up to 5 pages",
+          features: [
+            "Everything in Starter",
+            "Services pages",
+            "Testimonials",
+            "On-page SEO setup",
+          ],
+          highlight: true,
+          buttonText: "Choose Business",
+        },
+        {
+          name: "Pro",
+          price: "$2,499",
+          description: "Custom sections",
+          features: [
+            "Everything in Business",
+            "Copy tweaks",
+            "Blog setup",
+            "Performance budget",
+          ],
+          buttonText: "Choose Pro",
+        },
+      ]}
+    />
+
+    <PrimaryActionSection
+      title="Need a custom package?"
+      text="Tell us exactly what you want and we’ll quote the same day."
+      buttonText="Contact us"
+      buttonHref="/contact"
+    />
+  </main>
+</Layout>

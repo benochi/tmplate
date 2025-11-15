@@ -1,0 +1,49 @@
+---
+type Plan = {
+  name: string;
+  price: string; // e.g., "$999"
+  description?: string;
+  features: string[];
+  highlight?: boolean;
+  buttonText?: string;
+  buttonHref?: string;
+};
+type Props = {
+  title?: string;
+  plans?: Plan[];
+};
+const { title = "Simple pricing", plans = [] } = Astro.props as Props;
+---
+
+<section aria-labelledby="pricing-heading">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+    <h2 id="pricing-heading" class="text-3xl sm:text-4xl font-bold">{title}</h2>
+    <div class="mt-8 grid gap-6 lg:grid-cols-3">
+      {
+        plans.map((p) => (
+          <article
+            class={`rounded-2xl border p-6 ${p.highlight ? "border-[--color-brand] shadow" : "border-slate-200 bg-white"}`}
+          >
+            <header>
+              <h3 class="text-xl font-semibold">{p.name}</h3>
+              <p class="mt-1 text-slate-600">{p.description}</p>
+              <div class="mt-4 text-3xl font-bold">{p.price}</div>
+            </header>
+            <ul class="mt-6 grid gap-2 text-slate-700">
+              {p.features.map((f) => (
+                <li>• {f}</li>
+              ))}
+            </ul>
+            <a href={p.buttonHref ?? "/contact"} class="inline-block mt-6">
+              <button
+                class={`h-12 px-6 rounded-2xl text-white font-semibold hover:opacity-90 ${p.highlight ? "bg-[--color-brand]" : "bg-slate-800"}`}
+              >
+                {p.buttonText ?? "Get started"}
+              </button>
+            </a>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
