@@ -2,6 +2,9 @@
 // src/pages/index.astro
 import Layout from "../layouts/Layout.astro";
 import Section from "../components/blocks/Section.astro";
+import Hero from "../components/blocks/Hero.astro";
+import FeatureGrid from "../components/blocks/FeatureGrid.astro";
+import PrimaryActionSection from "../components/blocks/PrimaryActionSection.astro";
 ---
 
 <Layout>
@@ -17,5 +20,33 @@ import Section from "../components/blocks/Section.astro";
         Lightning-fast, accessible, and easy to edit.
       </p>
     </Section>
+    <Hero
+      headline="Home page hero!"
+      subhead="Clean, fast, SEO-first sites."
+      buttonText="Get a free quote"
+      buttonHref="/contact"
+    />
+    <FeatureGrid
+      items={[
+        {
+          title: "Lightning-fast",
+          body: "Static output with minimal JavaScript.",
+        },
+        {
+          title: "SEO-first",
+          body: "Semantic HTML, clean headings, customizable meta per page.",
+        },
+        {
+          title: "Accessible",
+          body: "Keyboard navigation, visible focus, good color contrast.",
+        },
+      ]}
+    />
+    <PrimaryActionSection
+      title="Book a free consult"
+      text="Pick a time that works for you."
+      buttonText="Schedule now"
+      buttonHref="/schedule"
+    />
   </main>
 </Layout>

@@ -1,5 +1,19 @@
 ---
-const { id, title, eyebrow, backgroundClass = "", padded = true } = Astro.props;
+type Props = {
+  id?: string;
+  title?: string;
+  eyebrow?: string;
+  backgroundClass?: string;
+  padded?: boolean;
+};
+
+const {
+  id,
+  title,
+  eyebrow,
+  backgroundClass = "",
+  padded = true,
+} = Astro.props as Props;
 ---
 
 <section id={id} class={backgroundClass}>
