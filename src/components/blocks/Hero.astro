@@ -6,6 +6,9 @@ type Props = {
   subhead?: string;
   buttonText?: string;
   buttonHref?: string;
+  showMedia?: boolean; // toggle media column
+  imageUrl?: string; // optional quick image
+  imageAlt?: string;
 };
 
 const {
@@ -13,7 +16,14 @@ const {
   subhead = "Clean, fast, SEO-first websites with clear calls to action.",
   buttonText = "Get a free quote",
   buttonHref = "/contact",
+  showMedia = false,
+  imageUrl,
+  imageAlt = "",
 } = Astro.props as Props;
+
+// if a media slot is provided OR an imageUrl is set, we’ll render the right column
+const hasMediaSlot = !!Astro.slots.has("media");
+const renderMedia = showMedia && (hasMediaSlot || imageUrl);
 ---
 
 <header class="pt-20 pb-16">
@@ -30,9 +40,26 @@ const {
           </button>
         </a>
       </div>
-      <div class="lg:col-span-5">
-        <div class="aspect-video rounded-2xl bg-slate-100"></div>
-      </div>
+
+      {
+        renderMedia && (
+          <div class="lg:col-span-5">
+            <div class="aspect-video overflow-hidden rounded-2xl bg-slate-100">
+              {hasMediaSlot ? (
+                <slot name="media" />
+              ) : imageUrl ? (
+                <img
+                  src={imageUrl}
+                  alt={imageAlt}
+                  class="h-full w-full object-cover"
+                  loading="lazy"
+                  decoding="async"
+                />
+              ) : null}
+            </div>
+          </div>
+        )
+      }
     </div>
   </PageContainer>
 </header>

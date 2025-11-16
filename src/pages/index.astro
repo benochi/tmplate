@@ -42,12 +42,15 @@ const portfolioSlides = [
         Lightning-fast, accessible, and easy to edit.
       </p>
     </Section>
-    <Hero
-      headline="Home page hero!"
-      subhead="Clean, fast, SEO-first sites."
-      buttonText="Get a free quote"
-      buttonHref="/contact"
-    />
+    <Hero showMedia={true}>
+      <fragment slot="media">
+        <img
+          src="/images/hero1.jpg"
+          alt="Storefront"
+          class="h-full w-full object-cover"
+        />
+      </fragment>
+    </Hero>
     <FeatureGrid
       items={[
         {
