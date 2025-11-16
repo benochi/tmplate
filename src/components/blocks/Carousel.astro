@@ -1,0 +1,172 @@
+---
+import PageContainer from "../layout/PageContainer.astro";
+
+type Slide = { src: string; alt: string; caption?: string };
+type Props = {
+  title?: string;
+  slides: Slide[];
+  autoplayMs?: number;
+};
+
+const {
+  title = "Gallery",
+  slides = [],
+  autoplayMs = 5000,
+} = Astro.props as Props;
+
+const uid = `carousel-${Math.random().toString(36).slice(2)}`;
+---
+
+<section class="py-12 bg-gray-50">
+  <PageContainer>
+    {title && <h2 class="text-3xl sm:text-4xl font-bold mb-8">{title}</h2>}
+
+    <div class="relative" data-carousel={uid}>
+      <!-- Viewport -->
+      <div
+        class="overflow-hidden rounded-xl border border-gray-200 shadow-lg"
+        data-viewport
+      >
+        <div class="flex" data-container>
+          {
+            slides.map((slide) => (
+              <div class="flex-[0_0_100%] min-w-0" data-slide>
+                <div class="relative h-[400px] sm:h-[500px] lg:h-[600px] bg-black">
+                  <img
+                    src={slide.src}
+                    alt={slide.alt}
+                    class="w-full h-full object-cover"
+                    loading="lazy"
+                  />
+                  {slide.caption && (
+                    <div class="absolute bottom-0 left-0 right-0 bg-linear-to-t from-black/80 to-transparent text-white px-6 py-4">
+                      <p class="text-base sm:text-sm font-medium">
+                        {slide.caption}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+
+      {/* Arrows overlaid on images */}
+      {
+        slides.length > 1 && (
+          <>
+            <button
+              data-prev
+              class="absolute left-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-white/90 hover:bg-white shadow-lg flex items-center justify-center transition-all"
+              aria-label="Previous slide"
+            >
+              <svg
+                class="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M15 19l-7-7 7-7"
+                />
+              </svg>
+            </button>
+
+            <button
+              data-next
+              class="absolute right-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-white/90 hover:bg-white shadow-lg flex items-center justify-center transition-all"
+              aria-label="Next slide"
+            >
+              <svg
+                class="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            </button>
+
+            {/* Dots */}
+            <div
+              class="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 flex gap-2"
+              data-dots
+            />
+          </>
+        )
+      }
+    </div>
+  </PageContainer>
+</section>
+
+<script>
+  import EmblaCarousel from "embla-carousel";
+  import Autoplay from "embla-carousel-autoplay";
+
+  // Initialize all carousels on the page
+  document.querySelectorAll("[data-carousel]").forEach((carousel) => {
+    const viewportNode = carousel.querySelector(
+      "[data-viewport]"
+    ) as HTMLElement;
+    const prevBtn = carousel.querySelector("[data-prev]") as HTMLButtonElement;
+    const nextBtn = carousel.querySelector("[data-next]") as HTMLButtonElement;
+    const dotsNode = carousel.querySelector("[data-dots]") as HTMLElement;
+    const slides = carousel.querySelectorAll("[data-slide]");
+
+    if (!viewportNode) return;
+
+    // Initialize Embla
+    const embla = EmblaCarousel(
+      viewportNode,
+      {
+        loop: true,
+        skipSnaps: false,
+        duration: 20,
+      },
+      [Autoplay({ delay: 5000, stopOnInteraction: false })]
+    );
+
+    // Prev/Next
+    if (prevBtn) prevBtn.addEventListener("click", () => embla.scrollPrev());
+    if (nextBtn) nextBtn.addEventListener("click", () => embla.scrollNext());
+
+    // Create dots
+    if (dotsNode && slides.length > 1) {
+      const dots: HTMLButtonElement[] = [];
+      slides.forEach((_, index) => {
+        const dot = document.createElement("button");
+        dot.className =
+          "w-2.5 h-2.5 rounded-full bg-white/60 hover:bg-white transition-all";
+        dot.setAttribute("aria-label", `Go to slide ${index + 1}`);
+        dot.addEventListener("click", () => embla.scrollTo(index));
+        dotsNode.appendChild(dot);
+        dots.push(dot);
+      });
+
+      const updateDots = () => {
+        const selected = embla.selectedScrollSnap();
+        dots.forEach((dot, index) => {
+          if (index === selected) {
+            dot.className =
+              "w-2.5 h-2.5 rounded-full bg-white scale-150 transition-all";
+          } else {
+            dot.className =
+              "w-2.5 h-2.5 rounded-full bg-white/60 hover:bg-white transition-all";
+          }
+        });
+      };
+
+      embla.on("select", updateDots);
+      updateDots();
+    }
+  });
+</script>

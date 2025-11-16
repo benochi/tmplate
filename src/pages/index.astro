@@ -6,6 +6,27 @@ import Hero from "../components/blocks/Hero.astro";
 import FeatureGrid from "../components/blocks/FeatureGrid.astro";
 import PrimaryActionSection from "../components/blocks/PrimaryActionSection.astro";
 import FAQ from "../components/blocks/FAQ.astro";
+import Stats from "../components/blocks/Stats.astro";
+import ImageBanner from "../components/blocks/ImageBanner.astro";
+import Carousel from "../components/blocks/Carousel.astro";
+
+const portfolioSlides = [
+  {
+    src: "/images/site1.jpg",
+    alt: "Restaurant homepage hero",
+    caption: "Café Azul",
+  },
+  {
+    src: "/images/site2.jpg",
+    alt: "Contractor services page",
+    caption: "ProBuild Services",
+  },
+  {
+    src: "/images/site3.jpg",
+    alt: "Dental clinic landing page",
+    caption: "Bright Dental",
+  },
+];
 ---
 
 <Layout>
@@ -65,5 +86,32 @@ import FAQ from "../components/blocks/FAQ.astro";
         },
       ]}
     />
+    <Stats
+      items={[
+        {
+          value: 3,
+          label: "Avg. days to launch",
+          sublabel: "From signed quote",
+        },
+        { value: "95%", label: "Mobile Lighthouse score", suffix: "" },
+        {
+          value: 50,
+          label: "Local leads / yr",
+          sublabel: "Typical SMB result",
+          suffix: "+",
+        },
+        { value: "$0", label: "Ongoing CMS fees" },
+      ]}
+    />
+    <ImageBanner
+      imageUrl="/images/sample-banner.jpg"
+      alt="Happy customer at storefront"
+      title="Stand out in local search"
+      text="Clean, fast sites with clear calls to action."
+      buttonText="Get a free quote"
+      buttonHref="/contact"
+      align="left"
+    />
+    <Carousel title="Recent work" slides={portfolioSlides} autoplayMs={5000} />
   </main>
 </Layout>

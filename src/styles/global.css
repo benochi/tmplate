@@ -1,7 +1,8 @@
 @import "tailwindcss";
 
+/* Tailwind v4 tokens */
 @theme {
-  --color-brand: #1d4ed8; /* blue-700 */
+  --color-brand: #1d4ed8;
   --surface: #ffffff;
   --surface-muted: #f8fafc;
   --border: #e2e8f0;

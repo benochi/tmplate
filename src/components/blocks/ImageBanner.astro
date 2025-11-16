@@ -1,0 +1,77 @@
+---
+import PageContainer from "../layout/PageContainer.astro";
+
+type Props = {
+  imageUrl: string;
+  alt: string;
+  title?: string;
+  text?: string;
+  buttonText?: string;
+  buttonHref?: string;
+  overlayClass?: string;
+  heightClass?: string;
+  align?: "left" | "center" | "right";
+  fit?: "cover" | "contain";
+  objectPosition?: string; // e.g. "center", "top", "50% 30%"
+};
+
+const {
+  imageUrl,
+  alt,
+  title,
+  text,
+  buttonText,
+  buttonHref,
+  overlayClass = "bg-black/40",
+  heightClass = "h-[40vh] sm:h-[50vh] lg:h-[60vh]",
+  align = "center",
+  fit = "cover",
+  objectPosition = "center",
+} = Astro.props as Props;
+
+const alignClass =
+  align === "left"
+    ? "items-center justify-start"
+    : align === "right"
+      ? "items-center justify-end"
+      : "items-center justify-center";
+
+const fitClass = fit === "cover" ? "object-cover" : "object-contain bg-black"; // contain shows letterboxing
+---
+
+<section class={`relative w-full ${heightClass} overflow-clip`}>
+  <img
+    src={imageUrl}
+    alt={alt}
+    class={`absolute inset-0 h-full w-full ${fitClass}`}
+    style={`object-position:${objectPosition}`}
+    loading="eager"
+    decoding="async"
+  />
+  <div class={`absolute inset-0 ${overlayClass}`}></div>
+
+  <PageContainer
+    padded={false}
+    class={`relative z-10 h-full flex ${alignClass}`}
+  >
+    <div class="max-w-2xl px-4 text-white text-center sm:text-left">
+      {
+        title && (
+          <h2 class="text-3xl sm:text-5xl font-extrabold drop-shadow">
+            {title}
+          </h2>
+        )
+      }
+      {text && <p class="mt-4 text-lg drop-shadow">{text}</p>}
+      {
+        buttonText && buttonHref && (
+          <a href={buttonHref} class="inline-block mt-6">
+            <button class="h-12 px-6 rounded-2xl bg-[--color-brand] text-white font-semibold hover:opacity-90">
+              {buttonText}
+            </button>
+          </a>
+        )
+      }
+    </div>
+  </PageContainer>
+</section>

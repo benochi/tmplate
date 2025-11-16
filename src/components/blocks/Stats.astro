@@ -1,0 +1,49 @@
+---
+import PageContainer from "../layout/PageContainer.astro";
+
+type Stat = {
+  value: string | number;
+  label: string;
+  sublabel?: string;
+  prefix?: string; // e.g., "$"
+  suffix?: string; // e.g., "%"
+};
+type Props = {
+  title?: string;
+  items?: Stat[];
+  backgroundClass?: string;
+  columns?: { base?: number; sm?: number; lg?: number };
+};
+
+const {
+  title = "By the numbers",
+  items = [],
+  backgroundClass = "bg-slate-50",
+  columns = { base: 2, sm: 3, lg: 4 },
+} = Astro.props as Props;
+
+const colClass = `grid gap-6 grid-cols-${columns.base ?? 2} sm:grid-cols-${columns.sm ?? 3} lg:grid-cols-${columns.lg ?? 4}`;
+---
+
+<section class={backgroundClass} aria-labelledby="stats-heading">
+  <PageContainer>
+    <h2 id="stats-heading" class="text-3xl sm:text-4xl font-bold">{title}</h2>
+    <dl class={`mt-8 ${colClass}`}>
+      {
+        items.map((s) => (
+          <div class="rounded-2xl border border-slate-200 bg-white p-6">
+            <dt class="text-sm text-slate-600">{s.label}</dt>
+            <dd class="mt-2 text-3xl font-extrabold text-slate-900">
+              {s.prefix}
+              {s.value}
+              {s.suffix}
+            </dd>
+            {s.sublabel && (
+              <p class="mt-1 text-sm text-slate-500">{s.sublabel}</p>
+            )}
+          </div>
+        ))
+      }
+    </dl>
+  </PageContainer>
+</section>
