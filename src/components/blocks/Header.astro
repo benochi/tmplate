@@ -1,4 +1,6 @@
 ---
+import PageContainer from "../layout/PageContainer.astro";
+
 type NavItem = { href: string; label: string };
 type Props = {
   brand?: string;
@@ -14,47 +16,70 @@ const {
     { href: "/contact", label: "Contact" },
   ],
 } = Astro.props as Props;
+
+const current = Astro.url.pathname;
 ---
 
-<header class="border-b border-slate-200">
-  <div
-    class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between"
-  >
-    <a href="/" class="text-lg font-bold tracking-tight">{brand}</a>
-
-    <!-- Desktop nav -->
-    <nav class="hidden md:flex gap-6" aria-label="Main">
-      {
-        nav.map((item) => (
-          <a href={item.href} class="text-slate-700 hover:text-slate-900">
-            {item.label}
-          </a>
-        ))
-      }
-    </nav>
-
-    <!-- Mobile menu (no JS) -->
-    <details class="md:hidden">
-      <summary
-        class="list-none cursor-pointer rounded-lg px-3 py-2 border border-slate-300"
+<header class="border-b border-slate-200 bg-[--surface]">
+  <!-- No vertical padding from PageContainer; we control exact height -->
+  <PageContainer padded={false} class="px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-11 sm:h-12 lg:h-13">
+      <a
+        href="/"
+        class="text-base sm:text-lg font-bold tracking-tight leading-none"
       >
-        Menu
-      </summary>
-      <nav
-        class="mt-2 rounded-xl border border-slate-200 p-2 grid gap-1 bg-white"
-        aria-label="Main"
-      >
-        {
-          nav.map((item) => (
-            <a
-              href={item.href}
-              class="block rounded-lg px-3 py-2 hover:bg-slate-50"
-            >
-              {item.label}
-            </a>
-          ))
-        }
+        {brand}
+      </a>
+
+      <!-- Desktop nav (compact) -->
+      <nav class="hidden md:block" aria-label="Main">
+        <ul class="flex items-center gap-4 lg:gap-5">
+          {
+            nav.map((item) => {
+              const isActive = current === item.href;
+              return (
+                <li>
+                  <a
+                    href={item.href}
+                    aria-current={isActive ? "page" : undefined}
+                    class={`text-sm leading-none hover:opacity-80 ${isActive ? "text-[--color-brand]" : "text-slate-700"}`}
+                  >
+                    {item.label}
+                  </a>
+                </li>
+              );
+            })
+          }
+        </ul>
       </nav>
-    </details>
-  </div>
+
+      <!-- Mobile menu (no JS) -->
+      <details class="md:hidden">
+        <summary
+          class="list-none cursor-pointer rounded-md px-2 py-1 border border-slate-300 text-sm leading-none"
+        >
+          Menu
+        </summary>
+        <nav
+          class="mt-2 rounded-lg border border-slate-200 p-2 grid gap-1 bg-white"
+          aria-label="Main"
+        >
+          {
+            nav.map((item) => {
+              const isActive = current === item.href;
+              return (
+                <a
+                  href={item.href}
+                  aria-current={isActive ? "page" : undefined}
+                  class={`block rounded-md px-3 py-2 text-sm leading-none hover:bg-slate-50 ${isActive ? "text-[--color-brand]" : "text-slate-700"}`}
+                >
+                  {item.label}
+                </a>
+              );
+            })
+          }
+        </nav>
+      </details>
+    </div>
+  </PageContainer>
 </header>

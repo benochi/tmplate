@@ -1,0 +1,82 @@
+---
+import PageContainer from "../layout/PageContainer.astro";
+import { Icon } from "astro-icon/components";
+
+type Nav = { href: string; label: string };
+type Social = { href: string; icon: string; label: string; newTab?: boolean };
+
+const year = new Date().getFullYear();
+
+const {
+  brand = "Your Business",
+  links = [
+    { href: "/privacy", label: "Privacy" },
+    { href: "/terms", label: "Terms" },
+  ] as Nav[],
+  socials = [
+    {
+      href: "https://github.com/yourbiz",
+      icon: "simple-icons:github",
+      label: "GitHub",
+    },
+    {
+      href: "https://instagram.com/yourbiz",
+      icon: "simple-icons:instagram",
+      label: "Instagram",
+    },
+    { href: "https://x.com/yourbiz", icon: "simple-icons:x", label: "X" },
+    {
+      href: "https://facebook.com/yourbiz",
+      icon: "simple-icons:facebook",
+      label: "Facebook",
+    },
+    {
+      href: "https://linkedin.com/company/yourbiz",
+      icon: "simple-icons:linkedin",
+      label: "LinkedIn",
+    },
+  ] as Social[],
+} = Astro.props as {
+  brand?: string;
+  links?: Nav[];
+  socials?: Social[];
+};
+---
+
+<footer
+  class="mt-16 border-t border-[--border] bg-[--surface] text-sm text-slate-600"
+>
+  <PageContainer padded={true} class="py-6">
+    <div
+      class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
+    >
+      <p class="leading-none">© {year} {brand}</p>
+
+      <nav aria-label="Footer links" class="flex flex-wrap items-center gap-3">
+        {
+          links.map((l: Nav) => (
+            <a href={l.href} class="hover:opacity-80">
+              {l.label}
+            </a>
+          ))
+        }
+      </nav>
+
+      <nav aria-label="Social" class="flex items-center gap-3">
+        {
+          socials.map((s: Social) => (
+            <a
+              href={s.href}
+              target={s.newTab !== false ? "_blank" : undefined}
+              rel={s.newTab !== false ? "noopener noreferrer" : undefined}
+              aria-label={s.label}
+              class="text-black hover:text-[--color-brand] transition"
+            >
+              <Icon name={s.icon} class="w-6 h-6" aria-hidden="true" />
+            </a>
+          ))
+        }
+      </nav>
+    </div>
+  </PageContainer>
+</footer>

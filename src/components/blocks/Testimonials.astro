@@ -1,39 +1,153 @@
 ---
 import PageContainer from "../layout/PageContainer.astro";
+import { Icon } from "astro-icon/components";
 
-type Testimonial = { quote: string; author: string; role?: string };
+type Item = {
+  quote: string;
+  author: string;
+  role?: string;
+  avatarSrc?: string;
+  href?: string;
+};
+type Columns = { base?: number; sm?: number; lg?: number };
+type Mode = "grid" | "paged";
+
 type Props = {
   title?: string;
-  items?: Testimonial[];
+  items?: Item[];
   backgroundClass?: string;
+  columns?: Columns;
+  mode?: Mode;        // "grid" | "paged"
+  pageSize?: number;  // used in "paged" mode
 };
 
 const {
   title = "What clients say",
   items = [],
-  backgroundClass = "bg-slate-50",
+  backgroundClass = "bg-[--surface-muted]",
+  columns = { base: 1, sm: 2, lg: 3 },
+  mode = "grid",
+  pageSize = 9,
 } = Astro.props as Props;
+
+const colClass = `grid gap-6 grid-cols-${columns.base ?? 1} sm:grid-cols-${columns.sm ?? 2} lg:grid-cols-${columns.lg ?? 3}`;
+const uid = `t-${Math.random().toString(36).slice(2)}`;
+const hasMany = items.length > pageSize;
 ---
 
-<section class={backgroundClass} aria-labelledby="testimonials-heading">
+<section class={backgroundClass} aria-labelledby={`${uid}-heading`}>
   <PageContainer>
-    <h2 id="testimonials-heading" class="text-3xl sm:text-4xl font-bold">
+    <h2 id={`${uid}-heading`} class="text-3xl sm:text-4xl font-bold">
       {title}
     </h2>
-    <ul class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      {
-        items.map((t) => (
-          <li class="rounded-2xl border border-slate-200 bg-white p-6">
-            <blockquote class="text-slate-800 leading-relaxed">
-              “{t.quote}”
-            </blockquote>
-            <div class="mt-4 text-sm text-slate-600">
-              <span class="font-semibold text-slate-800">{t.author}</span>
-              {t.role && <span class="ml-1">• {t.role}</span>}
-            </div>
+
+    {mode === "grid" && (
+      <ul class={`mt-6 ${colClass}`}>
+        {items.map((t) => (
+          <li class="rounded-2xl border border-[--border] bg-white p-5 sm:p-6">
+            <figure class="flex flex-col h-full">
+              <blockquote class="text-slate-800 leading-relaxed">“{t.quote}”</blockquote>
+              <figcaption class="mt-4 flex items-center gap-3">
+                {t.avatarSrc ? (
+                  <img src={t.avatarSrc} alt="" class="h-10 w-10 rounded-full object-cover border border-[--border]" loading="lazy" decoding="async" />
+                ) : (
+                  <span class="h-10 w-10 rounded-full border border-[--border] bg-[--surface-muted] grid place-items-center">
+                    <Icon name="simple-icons:astro" class="h-5 w-5 text-slate-600" aria-hidden="true" />
+                  </span>
+                )}
+                <div class="text-sm">
+                  <div class="font-semibold text-slate-800">{t.author}</div>
+                  {t.role && <div class="text-slate-600">{t.role}</div>}
+                  {t.href && <a href={t.href} class="text-[--color-brand] hover:opacity-80">View project</a>}
+                </div>
+              </figcaption>
+            </figure>
           </li>
-        ))
-      }
-    </ul>
+        ))}
+      </ul>
+    )}
+
+    {mode === "paged" && (
+      <div id={uid} class="mt-6">
+        <ul data-grid class={`*:data-item:block ${colClass}`}>
+          {items.map((t, i) => (
+            <li data-item data-index={i} class="rounded-2xl border border-[--border] bg-white p-5 sm:p-6">
+              <figure class="flex flex-col h-full">
+                <blockquote class="text-slate-800 leading-relaxed">“{t.quote}”</blockquote>
+                <figcaption class="mt-4 flex items-center gap-3">
+                  {t.avatarSrc ? (
+                    <img src={t.avatarSrc} alt="" class="h-10 w-10 rounded-full object-cover border border-[--border]" loading="lazy" decoding="async" />
+                  ) : (
+                    <span class="h-10 w-10 rounded-full border border-[--border] bg-[--surface-muted] grid place-items-center">
+                      <Icon name="simple-icons:astro" class="h-5 w-5 text-slate-600" aria-hidden="true" />
+                    </span>
+                  )}
+                  <div class="text-sm">
+                    <div class="font-semibold text-slate-800">{t.author}</div>
+                    {t.role && <div class="text-slate-600">{t.role}</div>}
+                    {t.href && <a href={t.href} class="text-[--color-brand] hover:opacity-80">View project</a>}
+                  </div>
+                </figcaption>
+              </figure>
+            </li>
+          ))}
+        </ul>
+
+        {hasMany && (
+          <div class="mt-6 flex items-center justify-between">
+            <button data-prev class="px-3 py-2 rounded-lg border border-[--border]">Prev</button>
+            <div data-dots class="flex items-center gap-2"></div>
+            <button data-next class="px-3 py-2 rounded-lg border border-[--border]">Next</button>
+          </div>
+        )}
+      </div>
+    )}
   </PageContainer>
 </section>
+
+{mode === "paged" && hasMany && (
+  <script is:inline define:vars={{ uid, pageSize }}>
+    (() => {
+      const root = document.getElementById(uid);
+      if (!root) return;
+      const items = Array.from(root.querySelectorAll("[data-item]"));
+      const prev = root.querySelector("[data-prev]");
+      const next = root.querySelector("[data-next]");
+      const dots = root.querySelector("[data-dots]");
+      const per = Math.max(1, Number(pageSize) || 9);
+      const totalPages = Math.ceil(items.length / per);
+      let page = 0;
+
+      const show = () => {
+        items.forEach((el, i) => {
+          const inPage = Math.floor(i / per) === page;
+          el.style.display = inPage ? "" : "none";
+        });
+        if (dots) {
+          dots.querySelectorAll("button").forEach((b, i) => {
+            b.className = "w-2.5 h-2.5 rounded-full " + (i === page ? "bg-[--color-brand]" : "bg-slate-300");
+          });
+        }
+      };
+
+      const go = (p) => {
+        page = (p + totalPages) % totalPages;
+        show();
+      };
+
+      if (dots) {
+        for (let i = 0; i < totalPages; i++) {
+          const b = document.createElement("button");
+          b.className = "w-2.5 h-2.5 rounded-full bg-slate-300";
+          b.setAttribute("aria-label", `Go to page ${i + 1}`);
+          b.addEventListener("click", () => go(i));
+          dots.appendChild(b);
+        }
+      }
+
+      prev && prev.addEventListener("click", () => go(page - 1));
+      next && next.addEventListener("click", () => go(page + 1));
+      show();
+    })();
+  </script>
+)}

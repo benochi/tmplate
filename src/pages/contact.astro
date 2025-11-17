@@ -2,14 +2,53 @@
 import Layout from "../layouts/Layout.astro";
 import Section from "../components/blocks/Section.astro";
 import ContactForm from "../components/blocks/ContactForm.astro";
+import SeoHead from "../components/blocks/SeoHead.astro";
 const formAction = "https://formspree.io/f/your_form_id";
 ---
 
 <Layout>
   <fragment slot="head">
-    <title>Contact • Your Business</title>
-    <meta name="description" content="Get a same-day website quote." />
-    <link rel="canonical" href="/contact" />
+    <SeoHead
+      title="Contact • Your Business"
+      description="Get a same-day website quote."
+      canonicalPath="/contact"
+      siteName="Your Business"
+      imagePath="/og/contact.jpg"
+      type="website"
+      breadcrumbs={[
+        { name: "Home", path: "/" },
+        { name: "Contact", path: "/contact" },
+      ]}
+      jsonLd={[
+        {
+          "@context": "https://schema.org",
+          "@type": "ContactPage",
+          name: "Contact • Your Business",
+          url: "https://your-domain.example/contact",
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          name: "Your Business",
+          url: "https://your-domain.example",
+          logo: "https://your-domain.example/favicon.svg",
+          sameAs: [
+            "https://www.instagram.com/yourbiz",
+            "https://x.com/yourbiz",
+            "https://github.com/yourbiz",
+          ],
+          contactPoint: [
+            {
+              "@type": "ContactPoint",
+              contactType: "sales",
+              email: "hello@your-domain.example",
+              areaServed: "US",
+              availableLanguage: ["English"],
+            },
+          ],
+        },
+      ]}
+    />
   </fragment>
 
   <main id="main">

@@ -1,0 +1,99 @@
+---
+/**
+ * Set `site` in astro.config.mjs for absolute URLs.
+ *
+ * Props:
+ * - title: string
+ * - description: string
+ * - canonicalPath: string (e.g. "/contact")
+ * - type?: "website" | "article" | "product" | "profile" | "contact"
+ * - imagePath?: string (e.g. "/og/contact.jpg" or absolute)
+ * - baseUrl?: string (fallback if Astro.site not set)
+ * - locale?: string (default "en_US")
+ * - siteName?: string (brand name)
+ * - noindex?: boolean
+ * - twitterHandle?: string (e.g. "@yourbrand")
+ * - breadcrumbs?: { name: string; path: string }[]
+ * - jsonLd?: object | object[]
+ */
+
+type Breadcrumb = { name: string; path: string };
+
+type Props = {
+  title: string;
+  description: string;
+  canonicalPath: string;
+  type?: "website" | "article" | "product" | "profile" | "contact";
+  imagePath?: string;
+  baseUrl?: string;
+  locale?: string;
+  siteName?: string;
+  noindex?: boolean;
+  twitterHandle?: string;
+  breadcrumbs?: Breadcrumb[];
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+};
+
+const {
+  title,
+  description,
+  canonicalPath,
+  type = "website",
+  imagePath,
+  baseUrl,
+  locale = "en_US",
+  siteName = "Your Business",
+  noindex = false,
+  twitterHandle,
+  breadcrumbs = [],
+  jsonLd
+} = Astro.props as Props;
+
+const site = Astro.site ? String(Astro.site).replace(/\/+$/, "") : (baseUrl ?? "");
+const canonical = site ? (site + (canonicalPath.startsWith("/") ? canonicalPath : `/${canonicalPath}`)) : canonicalPath;
+const ogImage = imagePath
+  ? (imagePath.startsWith("http") ? imagePath : (site ? site + imagePath : imagePath))
+  : (site ? site + "/og/default.jpg" : "/og/default.jpg");
+
+// BreadcrumbList JSON-LD
+const breadcrumbLd = breadcrumbs.length
+  ? {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: breadcrumbs.map((b, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        name: b.name,
+        item: site ? site + b.path : b.path
+      }))
+    }
+  : null;
+
+const jsonLdArray = Array.isArray(jsonLd) ? jsonLd : (jsonLd ? [jsonLd] : []);
+if (breadcrumbLd) jsonLdArray.unshift(breadcrumbLd);
+---
+
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+{noindex && <meta name="robots" content="noindex,nofollow" />}
+
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:type" content={type} />
+<meta property="og:url" content={canonical} />
+<meta property="og:site_name" content={siteName} />
+{ogImage && <meta property="og:image" content={ogImage} />}
+{locale && <meta property="og:locale" content={locale} />}
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+{ogImage && <meta name="twitter:image" content={ogImage} />}
+{twitterHandle && <meta name="twitter:site" content={twitterHandle} />}
+
+{jsonLdArray.map((obj) => (
+  <script type="application/ld+json">
+    {JSON.stringify(obj)}
+  </script>
+))}

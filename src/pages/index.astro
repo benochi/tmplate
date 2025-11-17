@@ -9,31 +9,39 @@ import FAQ from "../components/blocks/FAQ.astro";
 import Stats from "../components/blocks/Stats.astro";
 import ImageBanner from "../components/blocks/ImageBanner.astro";
 import Carousel from "../components/blocks/Carousel.astro";
+import Testimonials from "../components/blocks/Testimonials.astro";
+import SeoHead from "../components/blocks/SeoHead.astro";
 
-const portfolioSlides = [
-  {
-    src: "/images/site1.jpg",
-    alt: "Restaurant homepage hero",
-    caption: "Café Azul",
-  },
-  {
-    src: "/images/site2.jpg",
-    alt: "Contractor services page",
-    caption: "ProBuild Services",
-  },
-  {
-    src: "/images/site3.jpg",
-    alt: "Dental clinic landing page",
-    caption: "Bright Dental",
-  },
-];
+import { featureItems } from "../data/featureGrid";
+import { faqItems } from "../data/faq";
+import { statsItems } from "../data/stats";
+import { portfolioSlides } from "../data/carousel";
+import { testimonials } from "../data/testimonials";
 ---
 
 <Layout>
   <fragment slot="head">
-    <title>Home • Acme</title>
-    <meta name="description" content="Acme builds fast, SEO-first SMB sites." />
-    <link rel="canonical" href="/" />
+    <SeoHead
+      title="Home • Acme"
+      description="Acme builds fast, SEO-first SMB sites."
+      canonicalPath="/"
+      siteName="Acme"
+      imagePath="/og/home.jpg"
+      locale="en_US"
+      twitterHandle="@acme"
+      breadcrumbs={[{ name: "Home", path: "/" }]}
+      jsonLd={{
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        name: "Acme",
+        url: "https://your-domain.example",
+        potentialAction: {
+          "@type": "SearchAction",
+          target: "https://your-domain.example/search?q={query}",
+          "query-input": "required name=query",
+        },
+      }}
+    />
   </fragment>
 
   <main id="main" class="mx-auto max-w-5xl p-8">
@@ -42,7 +50,15 @@ const portfolioSlides = [
         Lightning-fast, accessible, and easy to edit.
       </p>
     </Section>
-    <Hero showMedia={true}>
+
+    <!-- HERO stays inline (one-off) -->
+    <Hero
+      headline="Win more local customers"
+      subhead="Clean, fast, SEO-first websites with clear calls to action."
+      buttonText="Get a free quote"
+      buttonHref="/contact"
+      showMedia={true}
+    >
       <fragment slot="media">
         <img
           src="/images/hero1.jpg"
@@ -51,61 +67,30 @@ const portfolioSlides = [
         />
       </fragment>
     </Hero>
-    <FeatureGrid
-      items={[
-        {
-          title: "Lightning-fast",
-          body: "Static output with minimal JavaScript.",
-        },
-        {
-          title: "SEO-first",
-          body: "Semantic HTML, clean headings, customizable meta per page.",
-        },
-        {
-          title: "Accessible",
-          body: "Keyboard navigation, visible focus, good color contrast.",
-        },
-      ]}
-    />
+
+    <!-- Imported data blocks -->
+    <FeatureGrid items={featureItems} />
+
     <PrimaryActionSection
       title="Book a free consult"
       text="Pick a time that works for you."
       buttonText="Schedule now"
       buttonHref="/schedule"
     />
-    <FAQ
-      items={[
-        {
-          question: "How fast can you launch?",
-          answer: "Most sites launch in 3–7 days.",
-        },
-        {
-          question: "Do you handle SEO?",
-          answer: "Yes, titles, descriptions, headings, clean HTML.",
-        },
-        {
-          question: "Can I update content later?",
-          answer: "Yes, we can add and edit pages anytime.",
-        },
-      ]}
+
+    <FAQ items={faqItems} />
+
+    <Testimonials
+      title="What customers are saying"
+      items={testimonials}
+      backgroundClass="bg-[--surface-muted]"
+      columns={{ base: 1, sm: 2, lg: 3 }}
+      mode="paged"
+      pageSize={3}
     />
-    <Stats
-      items={[
-        {
-          value: 3,
-          label: "Avg. days to launch",
-          sublabel: "From signed quote",
-        },
-        { value: "95%", label: "Mobile Lighthouse score", suffix: "" },
-        {
-          value: 50,
-          label: "Local leads / yr",
-          sublabel: "Typical SMB result",
-          suffix: "+",
-        },
-        { value: "$0", label: "Ongoing CMS fees" },
-      ]}
-    />
+
+    <Stats items={statsItems} />
+
     <ImageBanner
       imageUrl="/images/sample-banner.jpg"
       alt="Happy customer at storefront"
@@ -115,6 +100,7 @@ const portfolioSlides = [
       buttonHref="/contact"
       align="left"
     />
+
     <Carousel title="Recent work" slides={portfolioSlides} autoplayMs={5000} />
   </main>
 </Layout>

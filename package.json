@@ -15,6 +15,8 @@
     "embla-carousel-autoplay": "^8.6.0"
   },
   "devDependencies": {
+    "@iconify-json/simple-icons": "^1.2.58",
+    "astro-icon": "^1.1.5",
     "tailwindcss": "^4.1.17"
   }
 }

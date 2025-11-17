@@ -2,16 +2,28 @@
 import Layout from "../layouts/Layout.astro";
 import PricingTable from "../components/blocks/PricingTable.astro";
 import PrimaryActionSection from "../components/blocks/PrimaryActionSection.astro";
+import SeoHead from "../components/blocks/SeoHead.astro";
 ---
 
 <Layout>
   <fragment slot="head">
-    <title>Pricing • Your Business</title>
-    <meta
-      name="description"
-      content="Transparent website packages with fast delivery and clean SEO."
+    <SeoHead
+      title="Pricing • Your Business"
+      description="Transparent website packages with fast delivery and clean SEO."
+      canonicalPath="/pricing"
+      siteName="Your Business"
+      imagePath="/og/pricing.jpg"
+      breadcrumbs={[
+        { name: "Home", path: "/" },
+        { name: "Pricing", path: "/pricing" },
+      ]}
+      jsonLd={{
+        "@context": "https://schema.org",
+        "@type": "OfferCatalog",
+        name: "Website Packages",
+        url: "https://your-domain.example/pricing",
+      }}
     />
-    <link rel="canonical" href="/pricing" />
   </fragment>
 
   <main id="main">
