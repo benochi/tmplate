@@ -1,8 +1,9 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import Section from "../components/blocks/Section.astro";
 import PricingTable from "../components/blocks/PricingTable.astro";
-import PrimaryActionSection from "../components/blocks/PrimaryActionSection.astro";
 import SeoHead from "../components/blocks/SeoHead.astro";
+import { products } from "../data/pricing";
 ---
 
 <Layout>
@@ -11,8 +12,6 @@ import SeoHead from "../components/blocks/SeoHead.astro";
       title="Pricing • Your Business"
       description="Transparent website packages with fast delivery and clean SEO."
       canonicalPath="/pricing"
-      siteName="Your Business"
-      imagePath="/og/pricing.jpg"
       breadcrumbs={[
         { name: "Home", path: "/" },
         { name: "Pricing", path: "/pricing" },
@@ -27,53 +26,9 @@ import SeoHead from "../components/blocks/SeoHead.astro";
   </fragment>
 
   <main id="main">
-    <PricingTable
-      plans={[
-        {
-          name: "Starter",
-          price: "$699",
-          description: "One-page site",
-          features: [
-            "Responsive layout",
-            "Contact form",
-            "Basic SEO",
-            "Launch in 3–5 days",
-          ],
-          buttonText: "Choose Starter",
-        },
-        {
-          name: "Business",
-          price: "$1,499",
-          description: "Up to 5 pages",
-          features: [
-            "Everything in Starter",
-            "Services pages",
-            "Testimonials",
-            "On-page SEO setup",
-          ],
-          highlight: true,
-          buttonText: "Choose Business",
-        },
-        {
-          name: "Pro",
-          price: "$2,499",
-          description: "Custom sections",
-          features: [
-            "Everything in Business",
-            "Copy tweaks",
-            "Blog setup",
-            "Performance budget",
-          ],
-          buttonText: "Choose Pro",
-        },
-      ]}
-    />
-
-    <PrimaryActionSection
-      title="Need a custom package?"
-      text="Tell us exactly what you want and we’ll quote the same day."
-      buttonText="Contact us"
-      buttonHref="/contact"
-    />
+    <Section title="Pricing">
+      <p class="text-slate-700">Pick a plan, or ask for a custom quote.</p>
+    </Section>
+    <PricingTable products={products} />
   </main>
 </Layout>

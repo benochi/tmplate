@@ -1,0 +1,31 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Section from "../components/blocks/Section.astro";
+import SeoHead from "../components/blocks/SeoHead.astro";
+---
+
+<Layout>
+  <fragment slot="head">
+    <SeoHead
+      title="Thank you • Your Business"
+      description="We received your message and will reply shortly."
+      canonicalPath="/thank-you"
+      noindex={true}
+    />
+  </fragment>
+
+  <main id="main">
+    <Section title="Thanks!">
+      <p class="text-slate-700">
+        We received your message. We’ll get back to you today.
+      </p>
+      <a href="/" class="inline-block mt-6">
+        <button
+          class="h-11 px-5 rounded-2xl bg-[--color-brand] text-white font-semibold hover:opacity-90"
+        >
+          Back to home
+        </button>
+      </a>
+    </Section>
+  </main>
+</Layout>

@@ -52,8 +52,12 @@ const formAction = "https://formspree.io/f/your_form_id";
   </fragment>
 
   <main id="main">
-    <Section title="Contact">
-      <ContactForm formAction={formAction} includePhone={true} />
+    <Section title="Contact Us" titleAlign="center">
+      <ContactForm
+        formAction="https://formspree.io/f/your-id"
+        redirectUrl="https://your-domain.example/thank-you"
+        includePhone={true}
+      />
     </Section>
   </main>
 </Layout>

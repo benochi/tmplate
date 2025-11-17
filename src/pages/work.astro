@@ -1,0 +1,33 @@
+---
+import Layout from "../layouts/Layout.astro";
+import WorkGrid from "../components/blocks/WorkGrid.astro";
+import Section from "../components/blocks/Section.astro";
+import SeoHead from "../components/blocks/SeoHead.astro";
+import { workItems } from "../data/work";
+---
+
+<Layout>
+  <fragment slot="head">
+    <SeoHead
+      title="Work • Your Business"
+      description="A few recent small-business projects."
+      canonicalPath="/work"
+      breadcrumbs={[
+        { name: "Home", path: "/" },
+        { name: "Work", path: "/work" },
+      ]}
+      jsonLd={{
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        name: "Work",
+      }}
+    />
+  </fragment>
+
+  <main id="main">
+    <Section title="Work">
+      <p class="text-slate-700">Swap these with real client projects.</p>
+    </Section>
+    <WorkGrid items={workItems} />
+  </main>
+</Layout>

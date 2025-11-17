@@ -1,0 +1,53 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Section from "../components/blocks/Section.astro";
+import SeoHead from "../components/blocks/SeoHead.astro";
+---
+
+<Layout>
+  <fragment slot="head">
+    <SeoHead
+      title="Privacy Policy • Your Business"
+      description="How we collect, use, and protect your information."
+      canonicalPath="/privacy"
+    />
+  </fragment>
+
+  <main id="main">
+    <Section title="Privacy Policy">
+      <div class="prose prose-slate max-w-none">
+        <h2>Information We Collect</h2>
+        <p>
+          We collect information you submit via forms (name, email, phone,
+          message) to respond to inquiries.
+        </p>
+
+        <h2>How We Use Information</h2>
+        <ul>
+          <li>Reply to your requests and provide quotes</li>
+          <li>Improve our website and services</li>
+          <li>Meet legal or contractual obligations</li>
+        </ul>
+
+        <h2>Sharing</h2>
+        <p>
+          We don’t sell personal data. We may share with service providers
+          (e.g., email/form processors) to operate the site.
+        </p>
+
+        <h2>Data Retention</h2>
+        <p>
+          We retain data only as long as necessary for the purposes above or as
+          required by law.
+        </p>
+
+        <h2>Your Rights</h2>
+        <p>Contact us to access, correct, or delete your information.</p>
+
+        <h2>Contact</h2>
+        <p>Email: hello@example.com</p>
+        <p>Last updated: {new Date().toISOString().slice(0, 10)}</p>
+      </div>
+    </Section>
+  </main>
+</Layout>

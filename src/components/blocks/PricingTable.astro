@@ -1,51 +1,63 @@
 ---
-import PageContainer from "../layout/PageContainer.astro";
-
-type Plan = {
+type Product = {
   name: string;
   price: string;
-  description?: string;
+  blurb?: string;
+  ctaText: string;
+  ctaHref: string;
   features: string[];
-  highlight?: boolean;
-  buttonText?: string;
-  buttonHref?: string;
+  popular?: boolean;
 };
-type Props = { title?: string; plans?: Plan[] };
 
-const { title = "Simple pricing", plans = [] } = Astro.props as Props;
+type Props = {
+  products: Product[];
+  title?: string;
+  backgroundClass?: string;
+};
+
+const {
+  products = [],
+  title = "Pricing",
+  backgroundClass = "bg-[--surface-muted]",
+} = Astro.props as Props;
 ---
 
-<section aria-labelledby="pricing-heading">
-  <PageContainer>
+<section class={backgroundClass} aria-labelledby="pricing-heading">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
     <h2 id="pricing-heading" class="text-3xl sm:text-4xl font-bold">{title}</h2>
-    <div class="mt-8 grid gap-6 lg:grid-cols-3">
+
+    <ul class="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
       {
-        plans.map((p) => (
-          <article
-            class={`rounded-2xl border p-6 ${p.highlight ? "border-[--color-brand] shadow" : "border-slate-200 bg-white"}`}
+        products.map((p) => (
+          <li
+            class={`rounded-2xl border border-[--border] bg-white p-6 ${p.popular ? "ring-2 ring-[--color-brand]" : ""}`}
           >
-            <header>
+            <div class="flex items-baseline gap-2">
               <h3 class="text-xl font-semibold">{p.name}</h3>
-              {p.description && (
-                <p class="mt-1 text-slate-600">{p.description}</p>
+              {p.popular && (
+                <span class="text-xs px-2 py-1 rounded-full bg-[--surface-muted] border border-[--border]">
+                  Popular
+                </span>
               )}
-              <div class="mt-4 text-3xl font-bold">{p.price}</div>
-            </header>
-            <ul class="mt-6 grid gap-2 text-slate-700">
+            </div>
+
+            {p.blurb && <p class="mt-2 text-slate-600">{p.blurb}</p>}
+            <div class="mt-4 text-3xl font-bold">{p.price}</div>
+
+            <ul class="mt-4 grid gap-2 text-sm text-slate-700">
               {p.features.map((f) => (
                 <li>• {f}</li>
               ))}
             </ul>
-            <a href={p.buttonHref ?? "/contact"} class="inline-block mt-6">
-              <button
-                class={`h-12 px-6 rounded-2xl text-white font-semibold hover:opacity-90 ${p.highlight ? "bg-[--color-brand]" : "bg-slate-800"}`}
-              >
-                {p.buttonText ?? "Get started"}
+
+            <a href={p.ctaHref} class="inline-block mt-6">
+              <button class="h-11 px-5 rounded-2xl bg-[--color-brand] text-white font-semibold hover:opacity-90">
+                {p.ctaText}
               </button>
             </a>
-          </article>
+          </li>
         ))
       }
-    </div>
-  </PageContainer>
+    </ul>
+  </div>
 </section>

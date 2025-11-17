@@ -7,6 +7,7 @@ type Props = {
   eyebrow?: string;
   backgroundClass?: string;
   padded?: boolean;
+  titleAlign?: "left" | "center";
 };
 
 const {
@@ -15,18 +16,25 @@ const {
   eyebrow,
   backgroundClass = "",
   padded = true,
+  titleAlign = "left",
 } = Astro.props as Props;
+
+const headingClass = `mt-2 text-3xl sm:text-4xl font-bold ${titleAlign === "center" ? "text-center" : ""}`;
 ---
 
 <section id={id} class={backgroundClass}>
   <PageContainer padded={padded}>
     {
       eyebrow && (
-        <p class="text-sm uppercase tracking-wide text-slate-500">{eyebrow}</p>
+        <p
+          class={`text-sm uppercase tracking-wide text-slate-500 ${titleAlign === "center" ? "text-center" : ""}`}
+        >
+          {eyebrow}
+        </p>
       )
     }
-    {title && <h2 class="mt-2 text-3xl sm:text-4xl font-bold">{title}</h2>}
-    <div class="mt-6">
+    {title && <h2 class={headingClass}>{title}</h2>}
+    <div class={`mt-6 ${titleAlign === "center" ? "text-center" : ""}`}>
       <slot />
     </div>
   </PageContainer>

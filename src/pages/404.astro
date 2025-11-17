@@ -1,0 +1,31 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Section from "../components/blocks/Section.astro";
+import SeoHead from "../components/blocks/SeoHead.astro";
+---
+
+<Layout>
+  <fragment slot="head">
+    <SeoHead
+      title="Page not found • Your Business"
+      description="The page you’re looking for doesn’t exist."
+      canonicalPath="/404"
+      noindex={true}
+    />
+  </fragment>
+
+  <main id="main">
+    <Section title="Page not found">
+      <p class="text-slate-700">
+        Try the navigation above or go back to the homepage.
+      </p>
+      <a href="/" class="inline-block mt-6">
+        <button
+          class="h-11 px-5 rounded-2xl bg-[--color-brand] text-white font-semibold hover:opacity-90"
+        >
+          Go home
+        </button>
+      </a>
+    </Section>
+  </main>
+</Layout>

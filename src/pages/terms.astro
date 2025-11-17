@@ -1,0 +1,58 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Section from "../components/blocks/Section.astro";
+import SeoHead from "../components/blocks/SeoHead.astro";
+---
+
+<Layout>
+  <fragment slot="head">
+    <SeoHead
+      title="Terms of Service • Your Business"
+      description="The terms that govern use of our website and services."
+      canonicalPath="/terms"
+    />
+  </fragment>
+
+  <main id="main">
+    <Section title="Terms of Service">
+      <div class="prose prose-slate max-w-none">
+        <h2>Use of Site</h2>
+        <p>By using this site, you agree to these terms and applicable laws.</p>
+
+        <h2>Quotes & Services</h2>
+        <p>
+          Quotes are estimates. Final scope, timelines, and deliverables are
+          defined in our written agreement.
+        </p>
+
+        <h2>Intellectual Property</h2>
+        <p>
+          Site content is owned by us or our licensors. You may not copy or
+          redistribute without permission.
+        </p>
+
+        <h2>Disclaimer</h2>
+        <p>
+          Site is provided “as is” without warranties. We’re not liable for
+          indirect or incidental damages.
+        </p>
+
+        <h2>Governing Law</h2>
+        <p>
+          These terms are governed by the laws of your state/country of
+          operation.
+        </p>
+
+        <h2>Changes</h2>
+        <p>
+          We may update these terms. Continued use after changes constitutes
+          acceptance.
+        </p>
+
+        <h2>Contact</h2>
+        <p>Email: hello@example.com</p>
+        <p>Last updated: {new Date().toISOString().slice(0, 10)}</p>
+      </div>
+    </Section>
+  </main>
+</Layout>
