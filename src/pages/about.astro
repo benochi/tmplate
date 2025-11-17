@@ -1,0 +1,44 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Section from "../components/blocks/Section.astro";
+import SeoHead from "../components/blocks/SeoHead.astro";
+import FeatureGrid from "../components/blocks/FeatureGrid.astro";
+---
+
+<Layout>
+  <fragment slot="head">
+    <SeoHead
+      title="About • Your Business"
+      description="We build fast, SEO-first small-business websites."
+      canonicalPath="/about"
+      breadcrumbs={[
+        { name: "Home", path: "/" },
+        { name: "About", path: "/about" },
+      ]}
+      jsonLd={{
+        "@context": "https://schema.org",
+        "@type": "AboutPage",
+        name: "About",
+      }}
+    />
+  </fragment>
+
+  <main id="main">
+    <Section eyebrow="Who we are" title="About">
+      <p class="text-slate-700">
+        We ship clean, fast static websites with strong on-page SEO and simple
+        editing.
+      </p>
+    </Section>
+
+    <Section title="What we value">
+      <FeatureGrid
+        items={[
+          { title: "Speed", body: "Fast loads and great Core Web Vitals." },
+          { title: "Clarity", body: "Clear calls to action, clean copy." },
+          { title: "Quality", body: "Accessible, semantic HTML and styles." },
+        ]}
+      />
+    </Section>
+  </main>
+</Layout>

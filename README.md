@@ -49,3 +49,5 @@ Visible focus styles enabled by default
 
 ## Notes
 TypeScript is optional. Use types in components where it helps, or disable per-file with // @ts-nocheck.
+If deploying on vercel, analytics can be added Create env var VERCEL_ANALYTICS_ENABLE=1 in the Vercel project. Then add to src/layouts/Layout.astro (bottom of <body>):
+<script defer src="/_vercel/insights/script.js"></script>
