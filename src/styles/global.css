@@ -9,5 +9,7 @@
   --text: #0f172a;
 }
 
+html { scrollbar-gutter: stable; }
+
 :focus-visible { outline: 3px solid rgba(59,130,246,.6); outline-offset: 2px; }
 html:focus-within { scroll-behavior: smooth; }
