@@ -22,7 +22,7 @@ Fast, SEO-friendly static sites for small businesses. Minimal dependencies. Tail
 Astro routes are created from files in src/pages. Static assets go in public.
 
 ## Quick start
-git clone git@github.com:benochi/tmplate.git
+git clone https://github.com/benochi/tmplate
 mv tmplate exampleApp
 cd exampleApp
 
